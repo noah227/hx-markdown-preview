@@ -1,0 +1,68 @@
+{
+	"id": "noahyoung-hx-markdown-preview",
+	"name": "hx-markdown-preview",
+	"description": "简洁易用的markdown预览",
+	"displayName": "Markdown预览",
+	"version": "0.0.0",
+	"publisher": "Noah Young",
+	"engines": {
+		"HBuilderX": "^2.7.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"main": "./extension",
+	"activationEvents": [
+		"onCommand:extension.previewMarkdown"
+	],
+	"contributes": {
+		"commands": [
+		    {
+		        "command": "extension.previewMarkdown"
+		    }
+		],
+		"menus": {
+            "explorer/context": [
+                {
+                    "command": "extension.previewMarkdown",
+                    "group": "z_commands",
+                    "title": "预览markdown",
+                    "when": "workspaceFolderRelativePath =~ /.md$/"
+                }
+            ],
+			"editor/context": [
+				{
+				    "command": "extension.previewMarkdown",
+				    "group": "z_commands",
+				    "title": "预览markdown(editor)",
+				    "when": "workspaceFolderRelativePath =~ /.md$/"
+				},
+				{
+					"group": "z_commands"
+				}
+			]
+		},
+        "viewsContainers": {
+            "rightside": [
+                {
+                    "id": "rc01",
+                    "title": "Markdown预览"
+                }
+            ]
+        },
+        "views": {
+            "rc01": [
+                {
+                    "id": "extensions.previewMD",
+                    "title": "mmmmmmm"
+                }
+            ]
+        }
+	},
+	"extensionDependencies": [
+		"plugin-manager"
+	],
+	"dependencies": {
+		"hx-vue-dist-loader": "^1.0.5"
+	}
+}
