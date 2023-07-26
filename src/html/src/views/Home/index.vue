@@ -139,6 +139,7 @@ onMounted(() => {
 }
 </style>
 <style lang="scss">
+@import "index";
 #render-area {
     box-sizing: border-box;
     padding: 16px;

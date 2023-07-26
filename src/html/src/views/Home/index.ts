@@ -1,8 +1,8 @@
 const marked = require("marked")
 const MarkdownIt = require("markdown-it")
 const hljs = require("highlight.js")
-import "highlight.js/styles/github.css"
 
+import "highlight.js/styles/github.css"
 
 export type TSupportedEngineItem = {
     title: string
@@ -19,15 +19,17 @@ export const getSupportedEngineList = (envInfo: TEnvInfo) => {
         {title: "marked", render: marked.parse},
         {
             title: "markdown-it", render: (content: string) => {
+                const tpl = `<pre class="hljs"><code>@VALUE</code></pre>`
                 const md = new MarkdownIt({
-                    highlight(str: string, lang: any){
-                        if(lang && hljs.getLanguage(lang)) {
+                    highlight(str: string, lang: any) {
+                        if (lang && hljs.getLanguage(lang)) {
                             try {
-                                return hljs.highlight(str, {language: lang}).value
-                            }catch (e){
+                                return tpl.replace("@VALUE", hljs.highlight(str, {language: lang}).value)
+                            } catch (e) {
                                 console.error(e)
                             }
                         }
+                        return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
                     }
                 })
                 const plugins: any[] = [
@@ -40,7 +42,7 @@ export const getSupportedEngineList = (envInfo: TEnvInfo) => {
                     [require("markdown-it-ins")],
                     // [require("markdown-it-toc-and-anchor").default],
                     [require("markdown-it-img-src-render"), {
-                        render(src: string){
+                        render(src: string) {
                             return pathJoin(uri.fsFolder, src)
                         }
                     }],
@@ -69,6 +71,12 @@ export const sampleData = `
 ## Code Block
 
 \`\`\` python
+class My:
+    def __init__(self):
+        pass
+    
+    def __str__():
+        return "hello"
 print(999)
 \`\`\`
 
@@ -81,7 +89,7 @@ console.log(1234, "hello")
 
 ## Others 
 
-![图片](./ddmmm.png#w=100)
+![图片](/ddmmm.png#w=100)
 
 * -sub & -sup: OH^-^ + H^+^ = H~2~0
 * -mark: ==Hello==

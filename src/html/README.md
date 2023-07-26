@@ -1,17 +1,8 @@
 # html
 
-## 使用
+## todo
 
-```shell
-npm run build:watch
-```
-
-## 注意事项
-
-* router(如果用了的话)需要设成hash的
-* 项目中用到的图标推荐使用字体图标，如[iconfont](https://www.iconfont.cn/)
-* 打包时限定chunk数量为1，排除chunk加载问题
-* ES几没关系，hbx的web引擎支持的
-* 如果只是单纯的页面调试，没必要每次都`停止/运行`插件
-    * 可以直接`npm run serve`服务提供的地址
-    * 如果是已经打开的窗口，直接刷新就行
+- [x] 优化代码块渲染样式（目前只有着色，没有背景色）
+  - 修改下渲染和样式引入就ok了，highlight.js的样式参见[demo](https://highlightjs.org/static/demo/)
+- [ ] 主题自动切换
+- 
