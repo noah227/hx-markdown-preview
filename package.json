@@ -17,52 +17,53 @@
 	],
 	"contributes": {
 		"commands": [
-		    {
-		        "command": "extension.previewMarkdown"
-		    }
+			{
+				"command": "extension.previewMarkdown"
+			}
 		],
 		"menus": {
-            "explorer/context": [
-                {
-                    "command": "extension.previewMarkdown",
-                    "group": "z_commands",
-                    "title": "预览markdown",
-                    "when": "workspaceFolderRelativePath =~ /.md$/"
-                }
-            ],
+			"explorer/context": [
+				{
+					"command": "extension.previewMarkdown",
+					"group": "z_commands",
+					"title": "预览markdown",
+					"when": "workspaceFolderRelativePath =~ /.md$/"
+				}
+			],
 			"editor/context": [
 				{
-				    "command": "extension.previewMarkdown",
-				    "group": "z_commands",
-				    "title": "预览markdown(editor)",
-				    "when": "workspaceFolderRelativePath =~ /.md$/"
+					"command": "extension.previewMarkdown",
+					"group": "z_commands",
+					"title": "预览markdown(editor)",
+					"when": "workspaceFolderRelativePath =~ /.md$/"
 				},
 				{
 					"group": "z_commands"
 				}
 			]
 		},
-        "viewsContainers": {
-            "rightside": [
-                {
-                    "id": "rc01",
-                    "title": "Markdown预览"
-                }
-            ]
-        },
-        "views": {
-            "rc01": [
-                {
-                    "id": "extensions.previewMD",
-                    "title": "mmmmmmm"
-                }
-            ]
-        }
+		"viewsContainers": {
+			"rightside": [
+				{
+					"id": "rc01",
+					"title": "Markdown预览"
+				}
+			]
+		},
+		"views": {
+			"rc01": [
+				{
+					"id": "extensions.previewMD",
+					"title": "mmmmmmm"
+				}
+			]
+		}
 	},
 	"extensionDependencies": [
 		"plugin-manager"
 	],
 	"dependencies": {
-		"hx-vue-dist-loader": "^1.0.5"
+		"hx-vue-dist-loader": "^1.0.5",
+		"query-string": "^8.1.0"
 	}
 }

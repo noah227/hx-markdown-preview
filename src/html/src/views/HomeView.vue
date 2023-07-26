@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div id="controls">
+        <div id="controls" :class="showRawContentInput && 'raw'">
             <label for="engine-switch">Markdown引擎</label>
             &emsp;
             <select v-model="engine" id="engine-switch">
@@ -9,6 +9,9 @@
                 </option>
             </select>
         </div>
+        <div v-if="showRawContentInput" id="raw-input">
+            <textarea v-model="markdownContent" rows="10"></textarea>
+        </div>
         <div id="render-area" v-html="renderContent"></div>
     </div>
 </template>
@@ -16,32 +19,23 @@
 <script lang="ts" setup>
 import {getHBuilderX} from "@/hx/index"
 import {onMounted, nextTick, ref, watch, computed} from "vue";
+import {sampleData, getSupportedEngineList, TSupportedEngineItem, TEnvInfo} from "@/views/Home";
 
-const marked = require("marked")
-const MarkdownIt = require("markdown-it")
+const markdownContent = ref(sampleData)
 
-const markdownContent = ref("")
+// 调试用
+const showRawContentInput = process.env.NODE_ENV === "RAW"
 
-type TSupportedEngineItem = {
-    title: string
-    render: (content: string) => string
-}
-const supportedEngineList: TSupportedEngineItem[] = [
-    {title: "marked", render: marked.parse},
-    {
-        title: "markdown-it", render: (content: string) => {
-            const md = new MarkdownIt()
-            return md.render(content)
-        }
-    },
-]
+const supportedEngineList = computed<TSupportedEngineItem[]>(() => {
+    return getSupportedEngineList(envInfo.value)
+})
 
-const engine = ref("marked")
+const engine = ref("markdown-it")
 watch(() => engine.value, () => {
 
 })
 const renderContent = computed(() => {
-    const engineRender = supportedEngineList.find(({title}) => title === engine.value)?.render
+    const engineRender = supportedEngineList.value.find(({title}) => title === engine.value)?.render
     return engineRender ? engineRender(markdownContent.value) : "引擎获取失败"
 })
 
@@ -59,11 +53,32 @@ const initMessage = () => {
             }
         } else {
             switch (msg.command) {
+                case "resFetchEnvInfo":
+                    envInfo.value = {...envInfo.value, ...msg.data}
+                    break
                 case "resFetchContent":
                     markdownContent.value = msg.data
                     break
             }
         }
+    })
+}
+
+const envInfo = ref<TEnvInfo>({
+    uri: {
+        authority: "",
+        fragment: "",
+        path: "",
+        query: "",
+        scheme: "",
+        fsPath: "",
+        fsFolder: "",
+    }
+})
+
+const fetchEnvInfo = () => {
+    getHBuilderX().postMessage({
+        command: "fetchEnvInfo"
     })
 }
 
@@ -84,6 +99,7 @@ onMounted(() => {
     window.addEventListener('hbuilderxReady', () => {
         initMessage()
         setTimeout(() => {
+            fetchEnvInfo()
             fetchContent()
         }, 0)
 
@@ -103,6 +119,7 @@ onMounted(() => {
     height: 100%;
     box-sizing: border-box;
     background: linear-gradient(45deg, pink, #0000), linear-gradient(165deg, aqua, #0000), linear-gradient(285deg, pink, #0000);
+    overflow: auto;
 }
 
 #controls {
@@ -112,5 +129,21 @@ onMounted(() => {
     align-items: center;
     background-color: #f0f0f0;
     box-sizing: border-box;
+
+}
+#raw-input {
+    width: 100%;
+    > textarea {
+        width: 100%;
+    }
+}
+</style>
+<style lang="scss">
+#render-area {
+    box-sizing: border-box;
+    padding: 16px;
+    img {
+        max-width: 100%;
+    }
 }
 </style>
