@@ -2,7 +2,7 @@ const marked = require("marked")
 const MarkdownIt = require("markdown-it")
 const hljs = require("highlight.js")
 
-import "highlight.js/styles/github.css"
+// import "highlight.js/styles/github.css"
 
 export type TSupportedEngineItem = {
     title: string
@@ -94,9 +94,14 @@ console.log(1234, "hello")
 * -sub & -sup: OH^-^ + H^+^ = H~2~0
 * -mark: ==Hello==
 * -ins: ++inserted++
-
-
+ 
 `
+
+// 酷黑 | 雅蓝 | 默认（绿柔）| 其他（自定义主题）
+export type TColorScheme = "Monokai" | "Atom One Dark" | "Default" | string
+type TConfiguration = {
+    colorScheme: TColorScheme
+}
 
 export type TEnvInfo = {
     uri: {
@@ -108,5 +113,11 @@ export type TEnvInfo = {
         // 本地文件路径
         fsPath: string
         fsFolder: string
-    }
+    },
+    configuration: TConfiguration
+}
+export const colorSchemeMap: { [index: string]: [string, string] } = {
+    Monokai: ["#f0f0f0", "rgb(39,40,34)"],
+    "Atom One Dark": ["#f0f0f0", "rgb(40,44,53)"],
+    Default: ["#222", "rgb(255,250,232)"]
 }

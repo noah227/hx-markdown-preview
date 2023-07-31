@@ -14,6 +14,8 @@ const showView = () => {
             const action = msg.command
             switch (action) {
                 case "fetchEnvInfo":
+                    const config = hx.workspace.getConfiguration()
+                    const colorScheme = config.get("editor.colorScheme")
                     hx.window.getActiveTextEditor().then(editor => {
                         const fsPath = editor.document.uri.fsPath
                         webview.postMessage({
@@ -23,7 +25,8 @@ const showView = () => {
                                     ...editor.document.uri,
                                      fsPath,
                                      fsFolder: path.dirname(fsPath)   
-                                }
+                                },
+                                configuration: {colorScheme}
                             }
                         })
                     })
@@ -64,6 +67,17 @@ const showView = () => {
                 }
             })
         }) 
+        
+        hx.workspace.onDidChangeConfiguration(e => {
+            const config = hx.workspace.getConfiguration()
+            const colorScheme = config.get("editor.colorScheme")
+            webview.postMessage({
+                command: "resFetchEnvInfo",
+                data: {
+                    configuration: {colorScheme}
+                }
+            })
+        })
         webviewPanel.onDidDispose(() => {
             console.log(">>>>>>已关闭")
         })

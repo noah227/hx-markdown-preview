@@ -1,6 +1,6 @@
 <template>
-    <div class="home">
-        <div id="controls" :class="showRawContentInput && 'raw'">
+    <div class="home" :class="bindClass" :style="bindStyle">
+        <div v-if="false" id="controls" :class="showRawContentInput && 'raw'">
             <label for="engine-switch">Markdown引擎</label>
             &emsp;
             <select v-model="engine" id="engine-switch">
@@ -15,14 +15,16 @@
         <div id="render-area" v-html="renderContent"></div>
     </div>
 </template>
-
+<style>
+</style>
 <script lang="ts" setup>
-import {getHBuilderX} from "@/hx/index"
-import {onMounted, nextTick, ref, watch, computed} from "vue";
-import {sampleData, getSupportedEngineList, TSupportedEngineItem, TEnvInfo} from "@/views/Home";
+import {getHBuilderX} from "@/hx"
+import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {colorSchemeMap, getSupportedEngineList, sampleData, TEnvInfo, TSupportedEngineItem} from "@/views/Home";
 
 const markdownContent = ref(sampleData)
-
+// https://zhuanlan.zhihu.com/p/635303307
+// https://qa.1r1g.com/sf/ask/4148015791/
 // 调试用
 const showRawContentInput = process.env.NODE_ENV === "RAW"
 
@@ -73,6 +75,9 @@ const envInfo = ref<TEnvInfo>({
         scheme: "",
         fsPath: "",
         fsFolder: "",
+    },
+    configuration: {
+        colorScheme: "Default"
     }
 })
 
@@ -88,6 +93,21 @@ const fetchContent = () => {
     })
 }
 
+const bindClass = computed(() => {
+    return [
+        `color-scheme-${envInfo.value.configuration.colorScheme.replaceAll(/\s/g, "")}`
+    ]
+})
+
+const bindStyle = computed(() => {
+    const {colorScheme} = envInfo.value.configuration
+    const [color, backgroundColor] = colorSchemeMap[colorScheme] || colorSchemeMap.Default
+    let style: { [index: string]: any } = {
+        color, backgroundColor
+    }
+    return style
+})
+
 const displayErrorMessage = () => {
     getHBuilderX().postMessage({
         command: "displayError",
@@ -95,6 +115,7 @@ const displayErrorMessage = () => {
         timeout: 3000
     })
 }
+
 onMounted(() => {
     window.addEventListener('hbuilderxReady', () => {
         initMessage()
@@ -118,7 +139,7 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    background: linear-gradient(45deg, pink, #0000), linear-gradient(165deg, aqua, #0000), linear-gradient(285deg, pink, #0000);
+    //background: linear-gradient(45deg, pink, #0000), linear-gradient(165deg, aqua, #0000), linear-gradient(285deg, pink, #0000);
     overflow: auto;
 }
 
@@ -131,20 +152,41 @@ onMounted(() => {
     box-sizing: border-box;
 
 }
+
 #raw-input {
     width: 100%;
+
     > textarea {
         width: 100%;
     }
 }
 </style>
+
 <style lang="scss">
-@import "index";
+@use "sass:meta";
+@import "./styles/highlightjs";
+//@import "highlight.js/styles/github-dark.css";
+.color-scheme-Default {
+    //@include meta.load-css("~@/highlight.js/styles/github.css")
+    @include meta.load-css("./styles/github.css")
+}
+
+.color-scheme-Monokai {
+    //@include meta.load-css("~@/highlight.js/styles/github-dark.css")
+    @include meta.load-css("./styles/github-dark.css")
+}
+
+.color-scheme-AtomOneDark {
+    @include meta.load-css("./styles/github-dark-dimmed.css")
+}
+
 #render-area {
     box-sizing: border-box;
     padding: 16px;
+
     img {
         max-width: 100%;
     }
 }
 </style>
+
