@@ -13,6 +13,11 @@ const pathJoin = (...paths: any) => {
     return [...paths].filter(_ => _).join("/").replaceAll(/\/+/g, "/").replaceAll("./", "/")
 }
 
+const returnRawSrc = (src: string) => {
+    const includeList = ["http://", "https://", "ftp://", "//"]
+    return includeList.find(s => src.startsWith(s))
+}
+
 export const getSupportedEngineList = (envInfo: TEnvInfo) => {
     const {uri} = envInfo
     const supportedEngineList: TSupportedEngineItem[] = [
@@ -43,6 +48,7 @@ export const getSupportedEngineList = (envInfo: TEnvInfo) => {
                     // [require("markdown-it-toc-and-anchor").default],
                     [require("markdown-it-img-src-render"), {
                         render(src: string) {
+                            if(returnRawSrc(src)) return src
                             return pathJoin(uri.fsFolder, src)
                         }
                     }],
