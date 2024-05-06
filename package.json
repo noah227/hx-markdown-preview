@@ -63,7 +63,7 @@
 		"plugin-manager"
 	],
 	"dependencies": {
-		"hx-vue-dist-loader": "^1.0.5",
+		"hx-vue-dist-loader": "^1.2.5",
 		"query-string": "^8.1.0"
 	}
 }
