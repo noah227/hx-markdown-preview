@@ -1,0 +1,71 @@
+{
+    "markdown-it-anchor": {
+        "version": "^8.6.7",
+        "comment": "锚链接",
+        "extraCommentList": [
+            "未启用，因为已经使用`markdown-it-toc-and-anchor`了"
+        ]
+    },
+    "markdown-it-attrs": {
+        "version": "^4.1.6",
+        "comment": ""
+    },
+    "markdown-it-container": {
+        "version": "^3.0.0",
+        "comment": "",
+        "extraCommentList": [
+            "还没有定义块，所以暂未开启"
+        ]
+    },
+    "markdown-it-emoji": {
+        "version": "^2.0.2",
+        "comment": ""
+    },
+    "markdown-it-footnote": {
+        "version": "^3.0.3",
+        "comment": "",
+        "extraCommentList": [
+            "暂未启用，因为目前是hash模式，在使用hash的模式下不可用"
+        ]
+    },
+    "markdown-it-img-resize": {
+        "version": "^0.1.0",
+        "comment": ""
+    },
+    "markdown-it-img-src-render": {
+        "version": "^0.1.4",
+        "comment": ""
+    },
+    "markdown-it-imsize": {
+        "version": "^2.0.1",
+        "comment": "",
+        "extraCommentList": [
+            "未启用，使用了fs，浏览器不适配",
+            "已使用 [markdown-it-img-resize](https://www.npmjs.com/package/markdown-it-img-resize) 处理"
+        ]
+    },
+    "markdown-it-ins": {
+        "version": "^3.0.1",
+        "comment": ""
+    },
+    "markdown-it-mark": {
+        "version": "^3.0.1",
+        "comment": ""
+    },
+    "markdown-it-sub": {
+        "version": "^1.0.0",
+        "comment": ""
+    },
+    "markdown-it-sup": {
+        "version": "^1.0.0",
+        "comment": ""
+    },
+    "markdown-it-task-lists": {
+        "version": "^2.1.1",
+        "comment": ""
+    },
+    "markdown-it-toc-and-anchor": {
+        "version": "^4.2.0",
+        "comment": ""
+    }
+}

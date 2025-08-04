@@ -12,6 +12,10 @@
 		"Other"
 	],
 	"main": "./extension",
+    "scripts": {
+        "build:html": "cd ./src/html && npm run build",
+        "pack": "node hx-pack.js"
+    },
 	"activationEvents": [
 		"onCommand:extension.previewMarkdown"
 	],
@@ -65,5 +69,8 @@
 	"dependencies": {
 		"hx-vue-dist-loader": "^1.2.5",
 		"query-string": "^8.1.0"
+	},
+	"devDependencies": {
+		"cozip": "^0.1.1"
 	}
 }
